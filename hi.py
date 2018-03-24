@@ -1,6 +1,6 @@
 import re
 
-__author__ = 'pangpang@hi-nginx'
+__author__ = 'pangpang@hi-nginx.com'
 __version__ = '0.1.0'
 __license__ = 'GNU GENERAL PUBLIC LICENSE ,Version 3, 29 June 2007'
 
