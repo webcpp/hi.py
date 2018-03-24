@@ -9,7 +9,7 @@ python web framework for hi-nginx
 from hi import hi
 app =hi()
 
-
+@app.route(r'^/test/?$',['GET','POST'])
 @app.route(r"^/$",['GET'])
 def hello_world(req,res,param):
     res.header('Content-Type','text/plain;charset=utf-8')
