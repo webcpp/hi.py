@@ -99,3 +99,8 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+build
+dist
+hi.egg-info
+hi.pyc
