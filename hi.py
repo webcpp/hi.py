@@ -1,3 +1,4 @@
+from functools import wraps
 import re
 
 __author__ = 'pangpang@hi-nginx.com'
@@ -13,9 +14,10 @@ class hi:
         def wrapper_a(func):
             self.uri_map[pattern]={'method':method,'callback':func}
             self.uri_regex_map[pattern]=re.compile(pattern)
+            @wraps(func)
             def wrapper_b(req,res,param):
                 func(req,res,param)
-                return wrapper_b
+            return wrapper_b
         return wrapper_a
 
     def run(self,req,res):
