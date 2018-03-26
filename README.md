@@ -5,6 +5,8 @@ python web framework for hi-nginx
 
 ```python
 
+# -*- coding: utf-8 -*-
+
 from hi import hi,template
 import os
 
@@ -29,7 +31,7 @@ def hello(req,res,param):
 
 @app.route(r'^/template/(?P<name>\w+)/(?P<age>\d+)/?$',['GET'])
 def tpl(req,res,param):
-    param['title']='test jinja2 template'
+    param['title']='测试 jinja2 template'
     tpl_engine = template(os.path.join(os.getcwd(),'python/templates'))
     res.content(tpl_engine.file_render('b.html',param))
     res.status(200)
@@ -59,7 +61,7 @@ if __name__ == '__main__':
 {% extends 'a.html'  %}
 {% block body %}
 	{{ super()  }}
-	继承
+	用 Jinja2 来处理非 Unicode 数据是不可能的。这是因为 Jinja2 已经在语言层 使用了 Unicode 。
 {{ name  }} is {{ age }} years old.
 {% endblock %}
 
