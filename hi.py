@@ -1,15 +1,10 @@
 from functools import wraps
 from jinja2 import Environment, FileSystemLoader, select_autoescape, Template
 import re
-import sys
 
 __author__ = 'pangpang@hi-nginx.com'
 __version__ = '0.1.2'
 __license__ = 'GNU GENERAL PUBLIC LICENSE ,Version 3, 29 June 2007'
-
-reload(sys)
-
-sys.setdefaultencoding('utf-8')
 
 
 class hi:
