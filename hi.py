@@ -3,10 +3,22 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape, Template
 import re
 
 __author__ = 'pangpang@hi-nginx.com'
-__version__ = '0.1.2'
+__version__ = '0.1.3'
 __license__ = 'GNU GENERAL PUBLIC LICENSE ,Version 3, 29 June 2007'
 
 
+def singleton(class_):
+    instances = {}
+
+    @wraps(class_)
+    def getinstance(*args, **kwargs):
+        if class_ not in instances:
+            instances[class_] = class_(*args, **kwargs)
+        return instances[class_]
+    return getinstance
+
+
+@singleton
 class hi:
     def __init__(self):
         self.uri_map = {}
@@ -14,8 +26,10 @@ class hi:
 
     def route(self, pattern, method):
         def wrapper_a(func):
-            self.uri_map[pattern] = {'method': method, 'callback': func}
-            self.uri_regex_map[pattern] = re.compile(pattern)
+            if pattern not in self.uri_map:
+                self.uri_map[pattern] = {'method': method, 'callback': func}
+            if pattern not in self.uri_regex_map:
+                self.uri_regex_map[pattern] = re.compile(pattern)
 
             @wraps(func)
             def wrapper_b(req, res, param):
@@ -32,9 +46,10 @@ class hi:
                     break
 
 
+@singleton
 class template:
-    def __init__(self, template_search_path):
-        self.templates_dir = template_search_path
+    def __init__(self, templates_dir):
+        self.templates_dir = templates_dir
         self.jinja2_env = Environment(loader=FileSystemLoader(
             self.templates_dir), autoescape=select_autoescape(['htm', 'html', 'xml', 'json']))
 
