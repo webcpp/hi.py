@@ -1,10 +1,15 @@
 from functools import wraps
-from jinja2 import Environment, FileSystemLoader, select_autoescape, Template
+from jinja2 import Environment, FileSystemLoader, FileSystemBytecodeCache, select_autoescape, Template
 import re
+import sys
 
 __author__ = 'pangpang@hi-nginx.com'
-__version__ = '0.1.3'
+__version__ = '0.1.4'
 __license__ = 'GNU GENERAL PUBLIC LICENSE ,Version 3, 29 June 2007'
+
+if sys.version_info.major < 3:
+    reload(sys)
+    sys.setdefaultencoding('utf-8')
 
 
 def singleton(class_):
@@ -50,8 +55,12 @@ class hi:
 class template:
     def __init__(self, templates_dir):
         self.templates_dir = templates_dir
-        self.jinja2_env = Environment(loader=FileSystemLoader(
-            self.templates_dir), autoescape=select_autoescape(['htm', 'html', 'xml', 'json']))
+        self.jinja2_env = Environment(
+            loader=FileSystemLoader(self.templates_dir),
+            bytecode_cache=FileSystemBytecodeCache(self.templates_dir),
+            auto_reload=False,
+            optimized=True,
+            autoescape=select_autoescape(['htm', 'html', 'xml', 'json']))
 
     def file_render(self, template_file, variable):
         engine = self.jinja2_env.get_template(template_file)
