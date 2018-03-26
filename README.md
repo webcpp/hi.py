@@ -31,7 +31,7 @@ def hello(req,res,param):
 def tpl(req,res,param):
     param['title']='test jinja2 template'
     tpl_engine = template(os.path.join(os.getcwd(),'python/templates'))
-    res.content(tpl_engine.file_render('a.html',param))
+    res.content(tpl_engine.file_render('b.html',param))
     res.status(200)
 
 
@@ -40,6 +40,7 @@ if __name__ == '__main__':
 
 
 ```
+- a.html
 
 ```html
 
@@ -47,6 +48,20 @@ if __name__ == '__main__':
 	<head><title>{{ title }}</title></head>
 	<body>Hello {{ name }},you are {{ age }} years old.</body>
 </html>
+
+
+```
+
+- b.html
+
+```html
+
+{% extends 'a.html'  %}
+{% block body %}
+	{{ super()  }}
+	继承
+{{ name  }} is {{ age }} years old.
+{% endblock %}
 
 
 ```
