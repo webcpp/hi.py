@@ -4,7 +4,7 @@ import re
 import sys
 
 __author__ = 'pangpang@hi-nginx.com'
-__version__ = '0.1.4'
+__version__ = '0.1.5'
 __license__ = 'GNU GENERAL PUBLIC LICENSE ,Version 3, 29 June 2007'
 
 if sys.version_info.major < 3:
