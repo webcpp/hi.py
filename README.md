@@ -42,7 +42,7 @@ def hello(req,res,param):
 
 @app.route(r'^/template/(?P<name>\w+)/(?P<age>\d+)/?\.py$',['GET'])
 def tpl(req,res,param):
-    param['title']='测试 jinja2 template'
+    param['title']='jinja2 template'
     tpl_engine = template(os.path.join(os.getcwd(),'python/templates'))
     res.content(tpl_engine.file_render('b.html',param))
     res.status(200)
@@ -59,7 +59,11 @@ if __name__ == '__main__':
 
 <html>
 	<head><title>{{ title }}</title></head>
-	<body>Hello {{ name }},you are {{ age }} years old.</body>
+	<body>
+    {% block body %}
+    Hello {{ name }},you are {{ age }} years old.
+    {% endblock %}
+    </body>
 </html>
 
 
@@ -72,8 +76,8 @@ if __name__ == '__main__':
 {% extends 'a.html'  %}
 {% block body %}
 	{{ super()  }}
-	用 Jinja2 来处理非 Unicode 数据是不可能的。这是因为 Jinja2 已经在语言层 使用了 Unicode 。
-{{ name  }} is {{ age }} years old.
+    <br />
+	Hello {{ name }},you are {{ age }} years old.
 {% endblock %}
 
 
