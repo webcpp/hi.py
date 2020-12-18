@@ -4,7 +4,7 @@ import re
 import sys
 
 __author__ = 'pangpang@hi-nginx.com'
-__version__ = '0.1.6'
+__version__ = '0.1.7'
 __license__ = 'GNU GENERAL PUBLIC LICENSE ,Version 3, 29 June 2007'
 
 if sys.version_info.major < 3:
@@ -26,26 +26,25 @@ def singleton(class_):
 @singleton
 class hi:
     def __init__(self):
-        self.map = {}
+        self.route_list = []
 
     def route(self, pattern, method):
         def wrapper_a(func):
-            if pattern not in self.map:
-                self.map[pattern] = {'method': method, 'callback': func,'regex':re.compile(pattern)}
+            self.route_list.append(
+                {'method': method, 'callback': func, 'regex': re.compile(pattern)})
 
             @wraps(func)
             def wrapper_b(req, res, param):
                 func(req, res, param)
             return wrapper_b
         return wrapper_a
-        
 
     def run(self, req, res):
-        for k, v in self.map.items():
-            if req.method() in v['method']:
-                m = v['regex'].match(req.uri())
+        for item in self.route_list:
+            if req.method() in item['method']:
+                m = item['regex'].match(req.uri())
                 if m:
-                    v['callback'](req, res, m.groupdict())
+                    item['callback'](req, res, m.groupdict())
                     break
 
 
