@@ -2,11 +2,11 @@ from functools import wraps
 from jinja2 import Environment, FileSystemLoader, FileSystemBytecodeCache, select_autoescape, Template
 import pymysql
 from dbutils.pooled_db import PooledDB
-import re
+import regex as re
 import sys
 
 __author__ = 'pangpang@hi-nginx.com'
-__version__ = '0.1.8'
+__version__ = '0.1.9'
 __license__ = 'GNU GENERAL PUBLIC LICENSE ,Version 3, 29 June 2007'
 
 if sys.version_info.major < 3:
